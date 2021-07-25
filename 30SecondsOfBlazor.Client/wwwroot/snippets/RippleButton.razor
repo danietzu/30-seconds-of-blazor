@@ -1,0 +1,28 @@
+<button class="ripple-button"
+        @onclick="@(HandleClick)">
+	@if (isRippling)
+	{
+		<span class="ripple" style="left: @($"{x}px"); top: @($"{y}px");"></span>
+	}
+	<span class="content">@ChildContent</span>
+</button>
+
+@code {
+
+	[Parameter]
+	public RenderFragment ChildContent { get; set; }
+
+	double x;
+	double y;
+	bool isRippling;
+
+	async Task HandleClick(MouseEventArgs e)
+	{
+		x = e.OffsetX;
+		y = e.OffsetY;
+		isRippling = true;
+		await Task.Delay(300);
+		isRippling = false;
+	}
+
+}

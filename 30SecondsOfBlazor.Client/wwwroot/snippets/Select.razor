@@ -1,0 +1,21 @@
+<select defaultValue={selectedValue}
+        @onchange="@(e => OnValueChange.InvokeAsync(e.Value?.ToString()))"
+        @attributes="@Attributes">
+	@foreach (var (value, text) in Values)
+	{
+		<option value="@value">@text</option>
+	}
+</select>
+
+@code {
+
+	[Parameter]
+	public Dictionary<string, object> Attributes { get; set; }
+
+	[Parameter]
+	public Dictionary<object, string> Values { get; set; }
+
+	[Parameter]
+	public EventCallback<string> OnValueChange { get; set; }
+
+}

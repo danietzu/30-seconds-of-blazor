@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<title>30 seconds of Blazor</title>
+
+		<base href="/"/>
+		<link href="css/bootstrap/bootstrap.min.css" rel="stylesheet"/>
+		<link href="css/night-owl.min.css" rel="stylesheet">
+		<link href="css/app.css" rel="stylesheet"/>
+		<link href="30SecondsOfBlazor.Client.styles.css" rel="stylesheet"/>
+	</head>
+
+	<body>
+		<div id="app">
+			<div style="width: 100vw; height: 100vh;"
+			     class="d-flex justify-content-center align-items-center">
+				<div style="position: relative; width:40%; max-width: 150px;">
+					<img src="spinner-bg-2.svg" alt="Loading..." style="width: 100%;"/> <img id="spinner" src="spinner-5.svg"
+					                                                                         alt="Loading..."
+					                                                                         style="width: 70%; position: absolute; top: 21%; left: 5%"/>
+				</div>
+			</div>
+		</div>
+
+		<script src="_framework/blazor.webassembly.js"></script>
+
+		<script src="js/highlight.min.js"></script>
+	</body>
+</html>

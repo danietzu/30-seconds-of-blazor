@@ -1,0 +1,35 @@
+@foreach (var (option, index) in Options.Select((x, i) => (x, i)))
+{
+	<label>
+		<input readOnly type="checkbox"
+		       checked=@(option.Checked) @onclick=@(() => Toggle(index)) />
+		@option.Label
+	</label>
+}
+
+<p>
+	Selected:
+	@foreach (var option in Options.Where(x => x.Checked).Select(x => x.Label))
+	{
+		@option
+	}
+</p>
+
+@code {
+
+	public record Option
+	{
+		public string Label { get; set; }
+		public bool Checked { get; set; }
+	}
+
+	[Parameter]
+	public List<Option> Options { get; set; }
+
+	void Toggle(int index)
+	{
+		var item = Options.ElementAt(index);
+		item.Checked = !item.Checked;
+	}
+
+}

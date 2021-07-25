@@ -1,0 +1,68 @@
+@inject IJSRuntime JsRuntime
+
+<div class="@(drag ? "filedrop drag" : files.Any() ? "filedrop ready" : "filedrop")">
+	<div>
+		@if (files.Any() && !drag)
+		{
+			foreach (var file in files)
+			{
+				<div>@file.Name</div>
+			}
+		}
+		else
+		{
+			<p>Drop a file here!</p>
+		}
+	</div>
+	<InputFile multiple
+	           @attributes="@browseAttributes"
+	           OnChange="OnInputFileChange"
+	           @ondragenter="@HandleDragIn"
+	           @ondragleave="@HandleDragOut" />
+</div>
+
+@code {
+
+	[Parameter]
+	public EventCallback OnDrop { get; set; }
+
+	List<IBrowserFile> files = new();
+	bool drag;
+	int dragCounter;
+
+	readonly Dictionary<string, object> browseAttributes = new()
+	{
+		{"style", "height: 120px; width: 100%; opacity: 0;"}
+	};
+
+	void OnInputFileChange(InputFileChangeEventArgs e)
+	{
+		files = new List<IBrowserFile>();
+
+		foreach (var file in e.GetMultipleFiles())
+		{
+			try
+			{
+				files.Add(file);
+				drag = false;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+		}
+	}
+
+	void HandleDragIn(DragEventArgs e)
+	{
+		dragCounter += e.DataTransfer.Items.Length;
+		drag = true;
+	}
+
+	void HandleDragOut(DragEventArgs e)
+	{
+		dragCounter -= e.DataTransfer.Items.Length;
+		drag = false;
+	}
+
+}

@@ -1,0 +1,39 @@
+<div class="tag-input">
+	<ul class="tags">
+		@foreach (var (Tag, Index) in Tags.Select((Tag, Index) => (Tag, Index)))
+		{
+			<li class="tag">
+				<span class="tag-title">@Tag</span>
+				<span class="tag-close-icon"
+				      @onclick=@(() => RemoveTagData(Index))>
+					x
+				</span>
+			</li>
+		}
+	</ul>
+	<input type="text" @bind="@newTag" @onkeyup="@AddTagData"
+	       placeholder="Press enter to add a tag" />
+</div>
+
+@code {
+
+	[Parameter]
+	public List<string> Tags { get; set; }
+
+	string newTag;
+
+	void RemoveTagData(int index)
+	{
+		Tags.RemoveAt(index);
+	}
+
+	void AddTagData(KeyboardEventArgs e)
+	{
+		if (e.Key == "Enter")
+		{
+			Tags.Add(newTag);
+			newTag = string.Empty;
+		}
+	}
+
+}

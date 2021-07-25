@@ -1,0 +1,5 @@
+@page "/components/MultiselectCheckbox"
+
+<SnippetPage Component="@(new MultiselectCheckbox())">
+	<MultiselectCheckbox Options="@(new List<MultiselectCheckbox.Option> {new() {Label = "Option 1", Checked = false}, new() {Label = "Option 2", Checked = false}})" />
+</SnippetPage>

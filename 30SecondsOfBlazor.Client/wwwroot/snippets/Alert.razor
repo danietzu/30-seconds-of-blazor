@@ -1,0 +1,38 @@
+@if (isShown)
+{
+	<div class="alert @(Type) @(isLeaving ? "leaving" : "")" role="alert">
+		<button class="close" @onclick="@CloseAlert"></button>
+		@Message
+	</div>
+}
+
+@code {
+
+	[Parameter]
+	public string Message { get; set; }
+
+	[Parameter]
+	public string Type { get; set; }
+
+	[Parameter]
+	public bool IsDefaultShown { get; set; }
+
+	[Parameter]
+	public int Timeout { get; set; } = 250;
+
+	bool isShown;
+	bool isLeaving;
+
+	protected override async Task OnParametersSetAsync()
+	{
+		isShown = IsDefaultShown;
+		if (isShown is false)
+		{
+			await Task.Delay(Timeout);
+			isShown = true;
+		}
+	}
+
+	void CloseAlert() => isLeaving = true;
+
+}

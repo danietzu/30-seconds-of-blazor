@@ -1,0 +1,50 @@
+@typeparam T
+
+<div class="tree-element @(IsParentToggled ? "collapsed" : "") @(IsChildElement ? "is-child" : "")">
+	<span class="@(IsToggled ? "toggler" : "toggler closed")"
+	      @onclick="@(() => IsToggled = !IsToggled)">
+	</span>
+	@if (Name != null)
+	{
+		<strong>&nbsp;&nbsp;{name}: </strong>
+	}
+	else
+	{
+		<span>&nbsp;&nbsp;</span>
+	}
+	@(IsDataArray ? "[" : "{")
+	@(IsToggled ? "" : "...")
+
+	@foreach (var element in Data.GroupBy(x => x).Select(g => new {g.Key, Value = g}))
+	{
+		<p class="@(IsToggled ? "tree-element" : "tree-element collapsed")">
+			@if (!IsDataArray)
+			{
+				<strong>@element.Key: </strong>
+			}
+			@element.Value
+		</p>
+	}
+</div>
+
+@code {
+
+	[Parameter]
+	public string Name { get; set; }
+
+	[Parameter]
+	public bool IsToggled { get; set; }
+
+	[Parameter]
+	public bool IsParentToggled { get; set; }
+
+	[Parameter]
+	public bool IsChildElement { get; set; }
+
+	[Parameter]
+	public bool IsDataArray { get; set; }
+
+	[Parameter]
+	public IEnumerable<T> Data { get; set; }
+
+}

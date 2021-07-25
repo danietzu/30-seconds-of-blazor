@@ -1,0 +1,76 @@
+@using System.Timers
+
+<div>
+	<p>
+		@(h.ToString().PadLeft(2, '0')):@(m.ToString().PadLeft(2, '0')):@(s.ToString().PadLeft(2, '0'))
+	</p>
+	<div>@(over ? "Time's up!" : "")</div>
+	<button @onclick="@(() => paused = !paused)">
+		@(paused ? "Resume" : "Pause")
+	</button>
+	<button @onclick="@Reset">Restart</button>
+</div>
+
+@code {
+
+	[Parameter]
+	public int Hours { get; set; }
+
+	[Parameter]
+	public int Minutes { get; set; }
+
+	[Parameter]
+	public int Seconds { get; set; }
+
+	Timer timer = new() {Interval = 1000};
+	int h;
+	int m;
+	int s;
+	bool paused;
+	bool over;
+
+
+	protected override void OnParametersSet() => Reset();
+
+	protected override void OnAfterRender(bool firstRender)
+	{
+		if (firstRender)
+		{
+			timer.Elapsed += Tick;
+			timer.Enabled = true;
+			timer.Start();
+		}
+	}
+
+	void Tick(object obj, EventArgs e)
+	{
+		if (paused || over) return;
+		if (h == 0 && m == 0 && s == 0) over = true;
+		else if (m == 0 && s == 0)
+		{
+			h -= 1;
+			m = 59;
+			s = 59;
+		}
+		else if (s == 0)
+		{
+			m -= 1;
+			s = 59;
+		}
+		else
+		{
+			s -= 1;
+		}
+		StateHasChanged();
+	}
+
+	void Reset()
+	{
+		h = Hours;
+		m = Minutes;
+		s = Seconds;
+		paused = false;
+		over = false;
+	}
+
+}

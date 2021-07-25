@@ -1,0 +1,11 @@
+@page "/components/TreeView"
+
+<SnippetPage Component="@(new TreeView<string>())">
+	<TreeView Name="Name" Data="@data" />
+</SnippetPage>
+
+@code {
+
+	List<string> data = new() {"A", "B", "C"};
+
+}

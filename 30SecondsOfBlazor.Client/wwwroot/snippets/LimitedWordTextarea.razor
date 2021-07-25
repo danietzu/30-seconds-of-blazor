@@ -1,0 +1,47 @@
+<textarea rows="@Rows"
+	        cols="@Cols"
+					value="@formattedContent.Text"
+	        @oninput="@(e => SetFormattedContent(e.Value?.ToString()))">
+</textarea>
+<p>
+	@formattedContent.WordCount / @Limit
+</p>
+
+@code {
+
+	[Parameter]
+	public int Rows { get; set; }
+
+	[Parameter]
+	public int Cols { get; set; }
+
+	[Parameter]
+	public string Value { get; set; }
+
+	[Parameter]
+	public int Limit { get; set; }
+
+	record FormattedContent
+	{
+		public string Text { get; set; }
+		public int WordCount { get; set; }
+	}
+
+	FormattedContent formattedContent = new();
+
+	void SetFormattedContent(string text)
+	{
+		var words = text.Split(' ');
+		if (words.Length > Limit)
+		{
+			formattedContent.Text = string.Join(' ', words.Take(Limit));
+			formattedContent.WordCount = Limit;
+		}
+		else
+		{
+			formattedContent.Text = text;
+			formattedContent.WordCount = words.Length;
+		}
+	}
+
+}

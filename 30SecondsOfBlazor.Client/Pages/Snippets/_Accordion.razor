@@ -1,0 +1,27 @@
+@page "/components/Accordion"
+
+<SnippetPage Component="@(new Accordion())">
+	<Accordion DefaultIndex="1" Items="@items" />
+</SnippetPage>
+
+@code {
+
+	private List<Accordion.Item> items = new()
+	{
+		new Accordion.Item
+		{
+			Index = 1,
+			Label = "Item 1",
+			Content = @<div>Content 1</div>
+		},
+		new Accordion.Item
+		{
+			Index = 2,
+			Label = "Item 2",
+			Content = @<div>Content 2</div>
+		}
+	};
+
+
+
+}

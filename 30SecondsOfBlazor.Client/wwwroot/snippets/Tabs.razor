@@ -1,0 +1,49 @@
+<div class="wrapper">
+	<div class="tab-menu">
+		@foreach (var item in TabItems)
+		{
+			<button @onclick=@(() => changeTab(item.Index))
+			        class="@(bindIndex == item.Index ? "focus" : "")">
+				@item.Label
+			</button>
+		}
+	</div>
+	<div class="tab-view">
+		@foreach (var item in TabItems)
+		{
+			<div class="tab-content @(bindIndex == item.Index ? "selected" : "")">
+				@item.TabContent
+			</div>
+		}
+	</div>
+</div>
+
+@code {
+
+	[Parameter]
+	public int DefaultIndex { get; set; }
+
+	[Parameter]
+	public EventCallback OnTabClick { get; set; }
+
+	[Parameter]
+	public IEnumerable<TabItem> TabItems { get; set; }
+
+	int bindIndex;
+
+	protected override void OnParametersSet() => bindIndex = DefaultIndex;
+
+	void changeTab(int index)
+	{
+		bindIndex = index;
+		OnTabClick.InvokeAsync();
+	}
+
+	public class TabItem
+	{
+		public string Label { get; set; }
+		public int Index { get; set; }
+		public RenderFragment TabContent { get; set; }
+	}
+
+}

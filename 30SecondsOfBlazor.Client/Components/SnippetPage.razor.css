@@ -1,0 +1,60 @@
+.container {
+    padding: 0;
+}
+
+.card {
+    background-color: #272438;
+    padding: 1rem;
+}
+
+.component {
+    padding: 3rem;
+}
+
+h2 {
+    color: antiquewhite;
+    font-family: Rubik;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+.framework {
+    color: #a3b0c3;
+    font-weight: normal;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.framework.selected {
+    color: antiquewhite;
+}
+
+@media (max-width: 425px) {
+    .container {
+        padding: 0;
+    }
+
+    .card {
+        padding: .6rem;
+    }
+
+    .component {
+        padding: 2.5rem 1rem;
+    }
+    
+    h2 {
+        font-size: 1.3rem;
+    }
+    
+    .framework {
+        font-size: 1.2rem;
+    }
+}

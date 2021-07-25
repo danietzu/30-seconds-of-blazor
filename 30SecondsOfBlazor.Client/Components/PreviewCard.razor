@@ -1,0 +1,23 @@
+<a href="@($"/components/{Title}")">
+	<div class="card mb-4">
+		<div class="card-body">
+			<div class="d-flex">
+				@* <img src="blazor-logo.png" alt="Blazor" class="mr-4"> *@
+				<div class="ml-3">
+					<h5 class="card-title">@Title</h5>
+					<p class="card-text">@Text</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</a>
+
+@code {
+
+	[Parameter]
+	public string Title { get; set; }
+
+	[Parameter]
+	public string Text { get; set; }
+
+}

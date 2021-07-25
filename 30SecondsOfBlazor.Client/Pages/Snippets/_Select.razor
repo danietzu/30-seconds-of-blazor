@@ -1,0 +1,22 @@
+@page "/components/Select"
+
+<SnippetPage Component="@(new Select())">
+	<Select Values="@values" OnValueChange="@LogValue" />
+</SnippetPage>
+
+@code {
+
+	Dictionary<object, string> values = new()
+	{
+		{1, "Option 1"},
+		{2, "Option 2"},
+		{3, "Option 3"},
+		{4, "Option 4"},
+	};
+
+	private void LogValue(string value)
+	{
+		Console.WriteLine(value);
+	}
+
+}

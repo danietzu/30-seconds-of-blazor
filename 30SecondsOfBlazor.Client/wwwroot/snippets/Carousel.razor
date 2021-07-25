@@ -1,0 +1,35 @@
+@using System.Timers
+
+<div class="carousel">
+	@foreach (var (item, index) in Items.Select((x, i) => (x, i)))
+	{
+		<div class="item @(index == active ? "visible" : "")">@item.Content</div>
+	}
+</div>
+
+@code {
+
+	[Parameter]
+	public IEnumerable<Item> Items { get; set; }
+
+	int active = 0;
+	Timer timer = new() {Interval = 2000};
+
+	protected override void OnInitialized()
+	{
+		timer.Elapsed += SetActive;
+		timer.Start();
+	}
+
+	void SetActive(object obj, EventArgs e)
+	{
+		active = (active + 1) % Items.Count();
+		StateHasChanged();
+	}
+
+	public record Item
+	{
+		public RenderFragment Content { get; set; }
+	}
+
+}

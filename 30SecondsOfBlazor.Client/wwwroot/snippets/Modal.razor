@@ -1,0 +1,44 @@
+<button @onclick="@(() => IsVisible = true)">Open Modal</button>
+
+@if (IsVisible)
+{
+	<div class="modal" @onclick="@CloseModal">
+		<div class="modal-dialog" @onclick:stopPropagation="true">
+			<div class="modal-header">
+				<h3 class="modal-title">@Title</h3>
+				<span class="modal-close" @onclick="@CloseModal">
+					&times;
+				</span>
+			</div>
+			<div class="modal-body">
+				<div class="modal-content">@Content</div>
+			</div>
+			<div class="modal-footer">@Footer</div>
+		</div>
+	</div>
+}
+
+@code {
+
+	[Parameter]
+	public bool IsVisible { get; set; }
+
+	[Parameter]
+	public string Title { get; set; }
+
+	[Parameter]
+	public RenderFragment Content { get; set; }
+
+	[Parameter]
+	public RenderFragment Footer { get; set; }
+
+	[Parameter]
+	public EventCallback OnClose { get; set; }
+
+	void CloseModal()
+	{
+		OnClose.InvokeAsync();
+		IsVisible = false;
+	}
+
+}

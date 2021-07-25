@@ -1,0 +1,31 @@
+<div>
+	@for (int i = 1; i <= 5; i++)
+	{
+		var starId = i;
+
+		<span class="star" role="button"
+		      @onmouseover="@(() => HoverOver(starId))"
+		      @onmouseout="@(() => HoverOver(rating))"
+		      @onclick="@(() => SetRating(starId))">
+			@if (selection != rating)
+			{
+				@(selection >= starId ? '\u2605' : '\u2606')
+			}
+			else
+			{
+				@(rating >= starId ? '\u2605' : '\u2606')
+			}
+		</span>
+	}
+</div>
+
+@code {
+
+	int selection;
+	int rating;
+
+	void HoverOver(int id) => selection = id;
+
+	void SetRating(int value) => rating = value;
+
+}

@@ -1,0 +1,25 @@
+@page "/components/Carousel"
+
+<SnippetPage Component="@(new Carousel())">
+	<Carousel Items="@items" />
+</SnippetPage>
+
+@code {
+
+	private List<Carousel.Item> items = new()
+	{
+		new Carousel.Item
+		{
+			Content = @<div>Item 1</div>
+		},
+		new Carousel.Item
+		{
+			Content = @<div>Item 2</div>
+		},
+		new Carousel.Item
+		{
+			Content = @<div>Item 3</div>
+		}
+	};
+
+}

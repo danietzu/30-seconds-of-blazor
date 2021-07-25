@@ -1,0 +1,37 @@
+@foreach (var item in Items)
+{
+	<button class="accordion-button" @onclick="@(() => ChangeItem(item.Index))">
+		@item.Label
+	</button>
+	<div class="accordion-item @(bindIndex == item.Index ? "expanded" : "collapsed")"
+	     aria-expanded="@(bindIndex == item.Index)">
+		@item.Content
+	</div>
+}
+
+@code {
+
+	[Parameter]
+	public int DefaultIndex { get; set; }
+
+	[Parameter]
+	public EventCallback OnItemClick { get; set; }
+
+	[Parameter]
+	public IEnumerable<Item> Items { get; set; }
+
+	int bindIndex;
+
+	protected override void OnParametersSet() => bindIndex = DefaultIndex;
+
+	void ChangeItem(int index) => bindIndex = index;
+
+	public record Item
+	{
+		public int Index { get; set; }
+		public string Label { get; set; }
+		public EventCallback OnClick { get; set; }
+		public RenderFragment Content { get; set; }
+	}
+
+}

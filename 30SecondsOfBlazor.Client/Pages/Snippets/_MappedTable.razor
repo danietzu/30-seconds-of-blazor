@@ -1,0 +1,24 @@
+@page "/components/MappedTable"
+
+<SnippetPage Component="@component">
+	<MappedTable Data="@data" PropertyNames="@(new List<string> {"Name", "Age", "Job"})"></MappedTable>
+</SnippetPage>
+
+@code {
+
+	public class Person
+	{
+		public string Name { get; set; }
+		public int Age { get; set; }
+		public string Job { get; set; }
+	}
+
+	MappedTable<Person> component = new();
+
+	IEnumerable<Person> data = new Person[]
+	{
+		new() {Name = "Daniele", Age = 29, Job = "Developer"},
+		new() {Name = "Diana", Age = 25, Job = "Designer"}
+	};
+
+}

@@ -1,0 +1,35 @@
+@font-face {
+    font-family: Rubik;
+    src: local(Rubik),
+    url(../fonts/Rubik.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: OpenSans;
+    src: local(OpenSans),
+    url(../fonts/OpenSans-Regular.ttf) format("truetype");
+}
+
+body,html{
+    background-color: #161422;
+}
+
+h1 {
+    font-family: Rubik;
+    color: antiquewhite;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}
+
+#spinner {
+    animation: rotation 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}

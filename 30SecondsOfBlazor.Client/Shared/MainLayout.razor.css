@@ -1,0 +1,17 @@
+.container {
+    padding: 1.5rem 3rem;
+}
+
+p{
+    color: #a3b0c3;
+}
+
+@media (max-width: 425px){
+    .container {
+        padding: 1rem;
+    }
+
+    img {
+        width: 85vw;
+    }
+}

@@ -1,0 +1,27 @@
+@page "/components/Tabs"
+
+<SnippetPage Component="@(new Tabs())">
+	<Tabs DefaultIndex="1" TabItems="@tabItems" />
+</SnippetPage>
+
+@code {
+
+	private List<Tabs.TabItem> tabItems = new()
+	{
+		new Tabs.TabItem
+		{
+			Index = 1, 
+			Label = "A",
+			TabContent = @<div>Content A</div>
+		},
+		new Tabs.TabItem
+		{
+			Index = 2,
+			Label = "B",
+			TabContent = @<div>Content B</div>
+		}
+	};
+
+
+
+}

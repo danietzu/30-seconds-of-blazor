@@ -1,0 +1,55 @@
+@typeparam T
+
+<table>
+	<thead>
+		<tr>
+			@foreach (var name in PropertyNames)
+			{
+				<th>@name</th>
+			}
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in filteredData)
+		{
+			<tr>
+				@foreach (var value in item)
+				{
+					<td>@value</td>
+				}
+			</tr>
+		}
+	</tbody>
+</table>
+
+@code {
+
+	[Parameter]
+	public IEnumerable<T> Data { get; set; }
+
+	[Parameter]
+	public IEnumerable<string> PropertyNames { get; set; }
+
+	List<List<object>> filteredData = new();
+
+	protected override void OnAfterRender(bool firstRender)
+	{
+		if (firstRender)
+		{
+			var filteredProperties = typeof(T)
+				.GetProperties()
+				.Where(p => PropertyNames.Contains(p.Name))
+				.ToList();
+
+			foreach (var item in Data)
+			{
+				var values = filteredProperties.Select((x, i) => filteredProperties
+					.ToDictionary(p => p.Name, p => p.GetValue(item)).ElementAt(i).Value)
+					.ToList();
+
+				filteredData.Add(values);
+			}
+		}
+	}
+
+}

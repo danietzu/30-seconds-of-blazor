@@ -1,0 +1,93 @@
+@typeparam T
+@using System.Text.Json
+@using System.Reflection
+@inject IJSRuntime JsRuntime
+@inject HttpClient HttpClient
+
+<div class="container">
+	<div class="card">
+		<div class="card-body p-0">
+			<h2 class="card-title mb-3">
+				<span>
+					<a href="/" class="mr-2">&lt; </a>
+				</span>
+				@componentName
+			</h2>
+		</div>
+		<br>
+		
+		<div class="component bg-white mb-5">
+			@ChildContent
+		</div>
+
+		@if (!loading)
+		{
+			<h4>
+				<span class="framework @(framework == "Blazor" ? "selected" : "")"
+				      @onclick="@(() => framework = "Blazor")">
+					Blazor
+				</span>
+				<span class="framework @(framework == "React" ? "selected" : "")"
+				      @onclick="@(() => framework = "React")">
+					React
+				</span>
+			</h4>
+			<pre hidden="@(framework == "React")">
+				<code class="language-html">@html</code>
+			</pre>
+			<pre hidden="@(framework == "React")">
+				<code class="language-csharp">@csharp</code>
+			</pre>
+			<pre hidden="@(framework == "Blazor")">
+				<code class="language-javascript">@js</code>
+			</pre>
+			<h4 class="framework selected">CSS</h4>
+			<pre>
+				<code class="language-css">@css</code>
+			</pre>
+		}
+	</div>
+</div>
+
+@code {
+
+	[Parameter]
+	public T Component { get; set; }
+
+	[Parameter]
+	public RenderFragment ChildContent { get; set; }
+
+	Type type = typeof(T);
+
+	bool loading;
+	string componentName;
+	string framework = "Blazor";
+	string razor;
+	string html;
+	string css;
+	string csharp;
+	string js;
+
+	protected override async Task OnInitializedAsync()
+	{
+		loading = true;
+
+		componentName = typeof(T).Name.Replace("`1", "");
+		razor = await HttpClient.GetStringAsync($"/snippets/{componentName}.razor");
+		html = razor.Split("@code")[0].TrimEnd();
+		csharp = razor.Split("@code")[1].Insert(0, "@code");
+		css = await HttpClient.GetStringAsync($"/snippets/{componentName}.razor.css");
+		js = await HttpClient.GetStringAsync($"/snippets/{componentName}.js");
+
+		loading = false;
+
+		StateHasChanged();
+		await HighlightSyntax();
+	}
+
+	async Task HighlightSyntax()
+	{
+		await JsRuntime.InvokeVoidAsync("hljs.highlightAll");
+	}
+
+}
